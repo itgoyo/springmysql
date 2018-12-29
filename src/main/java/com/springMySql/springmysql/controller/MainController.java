@@ -4,13 +4,13 @@ import com.springMySql.springmysql.dao.User;
 import com.springMySql.springmysql.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller    // This means that this class is a Controller
+import java.util.Optional;
+
+//@Controller    // This means that this class is a Controller
 @RequestMapping(path = "/demo") // This means URL's start with /demo (after Application path)
+@RestController
 public class MainController {
 
     @Autowired // This means to get the bean called userRepository
@@ -39,4 +39,41 @@ public class MainController {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
-}
+
+    @GetMapping(path = "/hello")
+    @ResponseBody
+    public String sayHello(/*@RequestParam("id") Integer id,@RequestParam("name") String name*/){
+        return "id:  name: itgoyo";
+    }
+
+//    @RequestMapping(value="/hello/{id}",method= RequestMethod.GET)
+//    @ResponseBody
+//    public User find(@PathVariable("id") Integer id){
+//
+//        User user = new User();
+//
+//
+//        User one = userRepository.getOne(id);
+//
+//        user.setEmail(one.getEmail());
+//        user.setName(one.getName());
+//
+//        return one;
+//    }
+
+
+    @RequestMapping(value="/hello/{id}",method= RequestMethod.GET)
+    @ResponseBody
+    public Optional<User> find(@PathVariable("id") Integer id){
+
+
+        Optional<User> user = userRepository.findById(id);
+
+
+        return user;
+    }
+
+
+
+
+    }
